@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-07-06T19:19:24.979Z`
+> Generated: `2026-07-09T16:39:35.722Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-qa-core/references/skill-resolver.md`
 
@@ -35,7 +35,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/acli/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\acli\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -55,7 +55,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/agentic-qa-core/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\agentic-qa-core\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -83,7 +83,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/agentic-qa-onboard/SKILL.md` · phase: `bootstrap` · extraction strategy: B
+> Source: `.claude\skills\agentic-qa-onboard\SKILL.md` · phase: `bootstrap` · extraction strategy: B
 
 ---
 
@@ -111,7 +111,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/framework-development/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\framework-development\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -139,7 +139,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/git-flow-master/SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `implementation` · extraction strategy: B
 
 ---
 
@@ -167,7 +167,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/judgment-day/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\judgment-day\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -195,7 +195,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/project-discovery/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\project-discovery\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -223,7 +223,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/regression-testing/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\regression-testing\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -244,7 +244,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: running the batch grooming pipeline, writing the per-Story `shift-left-refinement.md`, or handling the PO/Dev handoff.
 
-> Source: `.claude/skills/shift-left-testing/SKILL.md` · phase: `unknown` · extraction strategy: A
+> Source: `.claude\skills\shift-left-testing\SKILL.md` · phase: `unknown` · extraction strategy: A
 
 ---
 
@@ -272,7 +272,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: starting a sprint cold, resuming a session, or handling a bug-triage / batch-sprint flow not covered by the rules above.
 
-> Source: `.claude/skills/sprint-testing/SKILL.md` · phase: `unknown` · extraction strategy: A
+> Source: `.claude\skills\sprint-testing\SKILL.md` · phase: `unknown` · extraction strategy: A
 
 ---
 
@@ -294,7 +294,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: writing KATA component code, choosing fixtures for a hybrid flow, or applying the Phase 3 review checklist.
 
-> Source: `.claude/skills/test-automation/SKILL.md` · phase: `unknown` · extraction strategy: A
+> Source: `.claude\skills\test-automation\SKILL.md` · phase: `unknown` · extraction strategy: A
 
 ---
 
@@ -316,7 +316,7 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: resolving TMS modality, computing ROI, writing Gherkin, or wiring US-ATP-ATR-TC traceability links.
 
-> Source: `.claude/skills/test-documentation/SKILL.md` · phase: `unknown` · extraction strategy: A
+> Source: `.claude\skills\test-documentation\SKILL.md` · phase: `unknown` · extraction strategy: A
 
 ---
 
@@ -344,4 +344,4 @@ Skills indexed: 13
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/xray-cli/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\xray-cli\SKILL.md` · phase: `unknown` · extraction strategy: B

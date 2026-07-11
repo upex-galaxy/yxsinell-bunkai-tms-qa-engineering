@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "playwright-best-practices": {
+      "source": "currents-dev/playwright-best-practices-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "996c8cafaa0b6bcb1a6de785a63fb4a3dfe794f17584ff82daedec9e3eaacad3"
+    },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "skillPath": "skills/playwright-cli/SKILL.md",
+      "computedHash": "39d67000951a05e8ab3c0e802a2dd55d8d6cb51239b30824c0e3b6c070b7d88f"
+    },
+    "resend-cli": {
+      "source": "resend/resend-skills",
+      "sourceType": "github",
+      "skillPath": "skills/resend-cli/SKILL.md",
+      "computedHash": "f40acd7c03e2c7eeb9e3e99e513424fee8c352bb093f6436b40386abae1ad0a9"
+    }
+  }
+}

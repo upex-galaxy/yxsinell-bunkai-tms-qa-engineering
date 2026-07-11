@@ -443,7 +443,13 @@ function which(binary: string): string | null {
   // setup from a vanilla Windows shell.
   const probe = process.platform === 'win32' ? 'where' : 'which';
   const result = spawnSync(probe, [binary], { encoding: 'utf8' });
-  if (result.status !== 0) { return null; }
+  if (result.status !== 0) {
+    if (process.platform === 'win32') {
+      const bunGlobalBin = join(homedir(), '.bun', 'bin', `${binary}.exe`);
+      if (existsSync(bunGlobalBin)) { return bunGlobalBin; }
+    }
+    return null;
+  }
   const out = result.stdout.trim();
   // `where` prints one match per line; take the first.
   const first = out.split(/\r?\n/)[0]?.trim() ?? '';
@@ -471,7 +477,7 @@ function tryRun(binary: string, args: string[]): { ok: boolean, stdout: string, 
  * Returns ok=true iff exit code 0.
  */
 function runInherited(binary: string, args: string[], env: NodeJS.ProcessEnv = process.env): { ok: boolean } {
-  const result = spawnSync(binary, args, { stdio: 'inherit', env });
+  const result = spawnSync(binary, args, { stdio: 'inherit', env, shell: process.platform === 'win32' });
   return { ok: result.status === 0 };
 }
 
