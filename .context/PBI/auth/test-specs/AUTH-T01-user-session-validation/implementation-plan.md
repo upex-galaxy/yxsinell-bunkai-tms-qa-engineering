@@ -1,4 +1,4 @@
-# Test Implementation Plan: UPEX-100
+# Plan de Implementación de Test: UPEX-100
 
 > **Ticket**: [UPEX-100: Validate User Session Management](https://your-org.atlassian.net/browse/UPEX-100)
 > **Type**: `integration`
@@ -7,44 +7,47 @@
 
 ---
 
-## 1. Ticket Summary
+## 1. Resumen del Ticket
 
-**What to test:**
-Validate that the authentication API correctly manages user sessions: login with valid credentials creates a valid session, login with invalid credentials is rejected, and authenticated endpoints enforce token requirements.
+**Qué testear:**
+Validar que la API de autenticación gestiona sesiones correctamente: login con credenciales válidas crea sesión válida, login con credenciales inválidas se rechaza, y endpoints autenticados aplican requerimientos de token.
 
 **Acceptance Criteria:**
-1. Valid credentials via POST /auth/login return a JWT token with correct structure
-2. The JWT token grants access to GET /auth/me (returns user info)
-3. Invalid credentials return 401 with error message and do NOT create a session
-4. Requests to protected endpoints without a token return 401
+
+1. Credenciales válidas vía POST /auth/login devuelven JWT token con estructura correcta.
+2. JWT token permite acceder a GET /auth/me (devuelve user info).
+3. Credenciales inválidas devuelven 401 con error y NO crean sesión.
+4. Requests a endpoints protegidos sin token devuelven 401.
 
 **Dependencies:**
-- UPEX Dojo API running at configured `apiUrl`
-- Test user credentials configured in `.env`
+
+- UPEX Dojo API corriendo en `apiUrl` configurada.
+- Credenciales de test user configuradas en `.env`.
 
 ---
 
-## 2. Architecture Decisions
+## 2. Decisiones de Arquitectura
 
-### Component Strategy
+### Estrategia de Componentes
 
 | Decision | Value | Rationale |
-|----------|-------|-----------|
-| **Component** | `AuthApi.ts` | Existing — owns `/auth/*` endpoints |
-| **Fixture** | `{ api }` | Pure API testing, no browser needed |
-| **Test file** | `tests/integration/auth/user-session.test.ts` | Groups all session validation scenarios |
-| **Preconditions** | Inline (token from api-state.json) | ApiFixture auto-loads token from setup |
+|---|---|---|
+| **Component** | `AuthApi.ts` | Existente — posee endpoints `/auth/*` |
+| **Fixture** | `{ api }` | Testing API puro, sin browser |
+| **Test file** | `tests/integration/auth/user-session.test.ts` | Agrupa escenarios de validación de sesión |
+| **Preconditions** | Inline (token desde api-state.json) | `ApiFixture` auto-carga token desde setup |
 
-### API Details
+### Detalles API
 
 | Aspect | Value |
-|--------|-------|
+|---|---|
 | **Endpoint(s)** | `POST /api/auth/login`, `GET /api/auth/me` |
 | **OpenAPI Type(s)** | `LoginPayload`, `TokenResponse`, `UserInfoResponse`, `AuthErrorResponse` |
 | **Auth Required** | Login: No, Me: Yes |
 | **Return Pattern** | Tuple: `[APIResponse, TBody]` (GET) / `[APIResponse, TBody, TPayload]` (POST) |
 
 **Request/Response Shapes:**
+
 ```typescript
 // POST /auth/login — Request
 interface LoginPayload {
@@ -78,44 +81,44 @@ interface UserInfoResponse {
 
 ## 3. ATC Registry
 
-### Existing ATCs (Reuse)
+### ATCs Existentes (Reuse)
 
 | ATC ID | Component | Method | Description |
-|--------|-----------|--------|-------------|
-| `PROJ-101` | `AuthApi` | `authenticateSuccessfully()` | POST login + GET /me verification — confirms valid session |
-| `PROJ-102` | `AuthApi` | `loginWithInvalidCredentials()` | POST bad creds + GET /me → 401 — confirms no session created |
+|---|---|---|---|
+| `PROJ-101` | `AuthApi` | `authenticateSuccessfully()` | POST login + verificación GET /me — confirma sesión válida |
+| `PROJ-102` | `AuthApi` | `loginWithInvalidCredentials()` | POST bad creds + GET /me → 401 — confirma que no se creó sesión |
 
-### New ATCs (Create)
+### ATCs Nuevos (Create)
 
-_None — existing ATCs cover all scenarios._
+_Ninguno — los ATCs existentes cubren todos los escenarios._
 
-### Helpers (No `@atc`)
+### Helpers (sin `@atc`)
 
 | Component | Method | Returns | Description |
-|-----------|--------|---------|-------------|
-| `AuthApi` | `getCurrentUser()` | `[APIResponse, UserInfoResponse]` | Read-only GET /auth/me — used for verification steps and test-level assertions |
+|---|---|---|---|
+| `AuthApi` | `getCurrentUser()` | `[APIResponse, UserInfoResponse]` | GET read-only /auth/me — usado para verification steps y assertions a nivel test |
 
-> **Design Decision:** `getCurrentUser()` is a **helper**, not an ATC. Per `test-design-principles.md`, simple GETs that just retrieve data are not ATCs. The GET /auth/me call is absorbed as a verification step inside `authenticateSuccessfully()` and `loginWithInvalidCredentials()`, where it validates that a session was (or was not) created.
+> **Design Decision:** `getCurrentUser()` es **helper**, no ATC. Según `test-design-principles.md`, GETs simples que solo recuperan datos no son ATCs. La llamada GET /auth/me se absorbe como verification step dentro de `authenticateSuccessfully()` y `loginWithInvalidCredentials()`, donde valida que una sesión fue creada o no creada.
 
 ---
 
-## 4. Test Data Strategy
+## 4. Estrategia de Test Data
 
-### Required Data
+### Datos Requeridos
 
 | Data | Source | Lifecycle |
-|------|--------|-----------|
-| Valid credentials | `config.testUser` (from `.env`) | Shared — pre-existing test user |
-| Invalid credentials | Inline object in test | Per-test — hardcoded bad values |
-| Auth token | `api-state.json` (from api-setup project) | Shared — loaded by ApiFixture |
+|---|---|---|
+| Credenciales válidas | `config.testUser` (desde `.env`) | Compartido — test user preexistente |
+| Credenciales inválidas | Objeto inline en test | Por test — valores malos hardcodeados |
+| Auth token | `api-state.json` (desde api-setup project) | Compartido — cargado por `ApiFixture` |
 
 ### DataFactory Additions
 
-_None needed — credentials come from config, not generated data._
+_No hace falta — las credenciales vienen de config, no de generated data._
 
 ### Constants Additions
 
-_None needed._
+_No hace falta._
 
 ---
 
@@ -126,6 +129,7 @@ _None needed._
 **Fixture:** `{ api }`
 
 #### Scenario 1: Get current user with valid token
+
 ```
 Test: "UPEX-100: should get current user with valid token"
 Preconditions: Token auto-loaded from api-state.json
@@ -135,6 +139,7 @@ Teardown: None
 ```
 
 #### Scenario 2: Fail without token
+
 ```
 Test: "UPEX-100: should fail without token"
 Preconditions: Token cleared via api.clearAuthToken()
@@ -144,6 +149,7 @@ Teardown: None (each test gets fresh fixture)
 ```
 
 #### Scenario 3: Re-authenticate at runtime
+
 ```
 Test: "UPEX-100: should be able to re-authenticate"
 Preconditions: Token cleared via api.clearAuthToken()
@@ -152,40 +158,40 @@ Test-level assertions: [status 200, access_token defined]
 Teardown: None
 ```
 
-> **Why scenarios 1 and 2 don't use ATCs:** These tests validate the helper `getCurrentUser()` directly — they test token propagation, not the authentication flow. The ATC `authenticateSuccessfully` already includes GET /auth/me as an internal verification step.
+> **Por qué scenarios 1 y 2 no usan ATCs:** estos tests validan directamente el helper `getCurrentUser()`; prueban propagación de token, no el flujo de autenticación. El ATC `authenticateSuccessfully` ya incluye GET /auth/me como verification step interno.
 
 ---
 
-## 6. Implementation Order
+## 6. Orden de Implementación
 
-- [x] **Step 1**: Types already exist in `@schemas/auth.types`
-- [x] **Step 2**: No DataFactory additions needed
-- [x] **Step 3**: No constants needed
-- [x] **Step 4**: Refactored `AuthApi.ts` — PROJ-103/104 removed as ATCs, `getCurrentUser()` added as helper, GET /me verification added to PROJ-101/102
-- [x] **Step 5**: Component already registered in `ApiFixture.ts`
-- [x] **Step 6**: Test file updated to use helper instead of removed ATCs
-- [x] **Step 7**: Tests pass locally
+- [x] **Step 1**: Types ya existen en `@schemas/auth.types`.
+- [x] **Step 2**: No se necesitan DataFactory additions.
+- [x] **Step 3**: No se necesitan constants.
+- [x] **Step 4**: Refactor de `AuthApi.ts` — PROJ-103/104 removidos como ATCs, `getCurrentUser()` agregado como helper, verificación GET /me agregada a PROJ-101/102.
+- [x] **Step 5**: Component ya registrado en `ApiFixture.ts`.
+- [x] **Step 6**: Test file actualizado para usar helper en lugar de ATCs removidos.
+- [x] **Step 7**: Tests pasan localmente.
 
 ---
 
 ## 7. Success Criteria
 
-- [x] All acceptance criteria from ticket covered
-- [x] ATCs follow KATA architecture (ACTION + VERIFICATION pattern)
-- [x] Test file uses `{ api }` fixture (no browser overhead)
-- [x] Helpers are NOT decorated with `@atc`
-- [x] Import aliases used (`@TestFixture`, `@schemas/`)
-- [x] Tests pass locally
+- [x] Todos los acceptance criteria del ticket cubiertos.
+- [x] ATCs siguen arquitectura KATA (patrón ACTION + VERIFICATION).
+- [x] Test file usa fixture `{ api }` (sin overhead de browser).
+- [x] Helpers NO decorados con `@atc`.
+- [x] Import aliases usados (`@TestFixture`, `@schemas/`).
+- [x] Tests pasan localmente.
 
 ---
 
 ## Cross-References
 
 - **ATC Spec (PROJ-101)**: `.context/PBI/auth/test-specs/AUTH-T01-user-session-validation/atc/UPEX-101-authenticate-successfully.md`
-- **ATC Spec (PROJ-102)**: Part of AuthApi, follows same pattern as PROJ-101
+- **ATC Spec (PROJ-102)**: parte de AuthApi, sigue el mismo patrón que PROJ-101.
 - **Component**: `tests/components/api/AuthApi.ts`
 - **Test file**: `tests/integration/auth/user-session.test.ts`
 
 ## Next Step
 
-Proceed to Phase 2 (Coding) via the `/test-automation` skill (coding/integration-test-coding reference).
+Continuar a Phase 2 (Coding) vía skill `/test-automation` (referencia coding/integration-test-coding).

@@ -1,15 +1,15 @@
-# Auth - Automation Progress Tracker
+# Auth - Tracker de Progreso de Automatización
 
-> **Purpose**: Track implementation progress across sessions. Read this file at the start of every session.
+> **Purpose**: Trackear progreso de implementación entre sesiones. Leer este archivo al inicio de cada sesión.
 > **Last Updated**: 2026-03-19
-> **Last Session**: Initial implementation — all TCs automated
+> **Last Session**: Implementación inicial — todos los TCs automatizados
 
 ---
 
-## Current Status
+## Estado Actual
 
 | Field | Value |
-|-------|-------|
+|---|---|
 | **Current Phase** | Phase 1 - Core Auth (P0) |
 | **Current Ticket** | AUTH-T01 (done) |
 | **TCs Automated** | 4 / 4 |
@@ -18,27 +18,27 @@
 
 ---
 
-## Ticket Progress
+## Progreso por Ticket
 
 ### Phase 1: Core Auth (P0)
 
 | Ticket | Title | TCs | Status | Test File | Done | Notes |
-|--------|-------|-----|--------|-----------|------|-------|
-| AUTH-T01 | User Session Validation | 4 | `done` | `tests/integration/auth/user-session.test.ts` | 4/4 | API + UI ATCs implemented |
+|---|---|---|---|---|---|---|
+| AUTH-T01 | User Session Validation | 4 | `done` | `tests/integration/auth/user-session.test.ts` | 4/4 | API + UI ATCs implementados |
 
 ---
 
-## Shared Components Created
+## Shared Components Creados
 
 | Component | File Path | Used By | Description |
-|-----------|-----------|---------|-------------|
-| AuthApi | `tests/components/api/AuthApi.ts` | AUTH-T01 | API auth component with login ATCs |
-| LoginPage | `tests/components/ui/LoginPage.ts` | AUTH-T01 | UI login component with form ATCs |
+|---|---|---|---|
+| AuthApi | `tests/components/api/AuthApi.ts` | AUTH-T01 | Componente API auth con ATCs de login |
+| LoginPage | `tests/components/ui/LoginPage.ts` | AUTH-T01 | Componente UI login con ATCs de formulario |
 
 ---
 
 ## Session Log
 
 | Date | Session | Tickets Touched | Summary |
-|------|---------|-----------------|---------|
-| 2026-03-19 | Initial | AUTH-T01 | All 4 TCs automated, both API and UI components created |
+|---|---|---|---|
+| 2026-03-19 | Initial | AUTH-T01 | Los 4 TCs quedaron automatizados; se crearon componentes API y UI |

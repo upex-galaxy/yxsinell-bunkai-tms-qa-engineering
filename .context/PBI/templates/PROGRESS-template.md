@@ -1,15 +1,15 @@
-# {Module Name} - Automation Progress Tracker
+# {Module Name} - Tracker de Progreso de Automatización
 
-> **Purpose**: Track implementation progress across sessions. Read this file at the start of every session.
+> **Purpose**: Trackear progreso de implementación entre sesiones. Leer este archivo al inicio de cada sesión.
 > **Last Updated**: {date}
 > **Last Session**: {brief description of last session's work}
 
 ---
 
-## Current Status
+## Estado Actual
 
 | Field | Value |
-|-------|-------|
+|---|---|
 | **Current Phase** | Phase 1 - {Phase Name} (P0) |
 | **Current Ticket** | {MODULE}-T01 (not started) |
 | **Test Files Created** | 0 / {total tickets} |
@@ -20,87 +20,87 @@
 
 ---
 
-## Ticket Progress
+## Progreso por Ticket
 
 ### Phase 1: {Phase Name} (P0)
 
 | Ticket | Title | TCs | TSs | Status | Test File | Done | Notes |
-|--------|-------|-----|-----|--------|-----------|------|-------|
+|---|---|---|---|---|---|---|---|
 | {MODULE}-T01 | {title} | {n} | {n} | `not-started` | — | 0/{total} | |
 | {MODULE}-T02 | {title} | {n} | {n} | `not-started` | — | 0/{total} | |
 
 ### Phase 2: {Phase Name} (P1)
 
 | Ticket | Title | TCs | TSs | Status | Test File | Done | Notes |
-|--------|-------|-----|-----|--------|-----------|------|-------|
+|---|---|---|---|---|---|---|---|
 | {MODULE}-T03 | {title} | {n} | {n} | `not-started` | — | 0/{total} | |
 
 ### Phase 3: {Phase Name} (P2)
 
 | Ticket | Title | TCs | TSs | Status | Test File | Done | Notes |
-|--------|-------|-----|-----|--------|-----------|------|-------|
+|---|---|---|---|---|---|---|---|
 | {MODULE}-T04 | {title} | {n} | {n} | `not-started` | — | 0/{total} | |
 
 ---
 
-## Status Legend
+## Leyenda de Status
 
-- `not-started` — Not yet begun
-- `in-progress` — Currently being worked on
-- `blocked` — Cannot proceed (see Notes)
-- `review` — Tests written, needs manual verification
-- `done` — Tests written, passing, and verified
+- `not-started` — todavía no iniciado.
+- `in-progress` — en trabajo.
+- `blocked` — no se puede continuar (ver Notes).
+- `review` — tests escritos, requiere verificación manual.
+- `done` — tests escritos, pasando y verificados.
 
 ---
 
-## Test Data Discovered
+## Test Data Descubierta
 
-> Fill this section as you discover suitable data for testing.
+> Completar esta sección al descubrir datos adecuados para testing.
 
 | Purpose | Entity ID | Entity Name | Environment | Notes |
-|---------|-----------|-------------|-------------|-------|
+|---|---|---|---|---|
 | — | — | — | — | — |
 
 ---
 
-## Shared Components Created
+## Shared Components Creados
 
-> Track reusable page objects, fixtures, and helpers created during this work.
+> Trackear page objects, fixtures y helpers reutilizables creados durante este trabajo.
 
 | Component | File Path | Used By | Description |
-|-----------|-----------|---------|-------------|
+|---|---|---|---|
 | — | — | — | — |
 
 ---
 
 ## Decisions & Learnings
 
-> Record important decisions, workarounds, or discoveries made during implementation.
+> Registrar decisiones importantes, workarounds o descubrimientos hechos durante implementación.
 
 | Date | Decision/Learning | Context |
-|------|-------------------|---------|
+|---|---|---|
 | {date} | {decision} | {why this was decided} |
 
 ---
 
 ## Session Log
 
-> After each session, add a brief entry here summarizing what was accomplished.
+> Después de cada sesión, agregar una entrada breve con lo logrado.
 
 | Date | Session | Tickets Touched | Summary |
-|------|---------|-----------------|---------|
+|---|---|---|---|
 | {date} | {type} | {tickets} | {what was done} |
 
 ---
 
-## How to Update This File
+## Cómo Actualizar Este Archivo
 
-After each work session:
+Después de cada sesión de trabajo:
 
-1. Update **Current Status** section (current ticket, counts)
-2. Update the ticket row in **Ticket Progress** (status, test file path, done count, notes)
-3. Add discovered test data to **Test Data Discovered**
-4. Add any new shared components to **Shared Components Created**
-5. Add important decisions to **Decisions & Learnings**
-6. Add a session entry to **Session Log**
-7. Update **Last Updated** and **Last Session** in the header
+1. Actualizar sección **Estado Actual** (current ticket, counts).
+2. Actualizar fila del ticket en **Progreso por Ticket** (status, test file path, done count, notes).
+3. Agregar test data descubierta en **Test Data Descubierta**.
+4. Agregar shared components nuevos en **Shared Components Creados**.
+5. Agregar decisiones importantes en **Decisions & Learnings**.
+6. Agregar entrada de sesión en **Session Log**.
+7. Actualizar **Last Updated** y **Last Session** en header.

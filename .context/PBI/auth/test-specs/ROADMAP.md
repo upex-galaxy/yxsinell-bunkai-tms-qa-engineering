@@ -1,4 +1,4 @@
-# Auth - Test Automation Roadmap
+# Auth - Roadmap de Automatización de Tests
 
 > **Module**: Auth (`/auth/*`)
 > **Total Tickets**: 1
@@ -8,7 +8,7 @@
 
 ---
 
-## Roadmap Overview
+## Vista General del Roadmap
 
 ```
 PHASE 1: Core Auth (P0)
@@ -18,25 +18,25 @@ PHASE 1: Core Auth (P0)
 
 ---
 
-## Ticket Index
+## Índice de Tickets
 
 | Ticket | Title | Priority | Phase | TCs | Dependencies |
-|--------|-------|----------|-------|-----|--------------|
+|---|---|---|---|---|---|
 | [AUTH-T01](AUTH-T01-user-session-validation/spec.md) | User Session Validation | P0 | 1 | 4 | None |
 
 ---
 
-## Phase Summary
+## Resumen por Phase
 
 | Phase | Priority | Tickets | TCs | Total | Focus |
-|-------|----------|---------|-----|-------|-------|
+|---|---|---|---|---|---|
 | **Phase 1** | P0 | 1 | 4 | 4 | Login, session verification, token enforcement |
 | **Total** | | **1** | **4** | **4** | |
 
 ---
 
-## Progress Tracker
+## Tracker de Progreso
 
 | Ticket | Backlog | In Progress | PR | Merged |
-|--------|---------|-------------|-----|--------|
+|---|---|---|---|---|
 | AUTH-T01 | [ ] | [ ] | [ ] | [x] |

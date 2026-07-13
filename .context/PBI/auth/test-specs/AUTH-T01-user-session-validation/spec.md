@@ -1,33 +1,33 @@
-# AUTH-T01: User Session Validation
+# AUTH-T01: Validación de Sesión de Usuario
 
 | Field | Value |
-|-------|-------|
+|---|---|
 | **Priority** | P0 |
 | **Phase** | Phase 1 - Core Auth |
 | **Items** | 4 TCs |
 | **Dependencies** | None (foundation ticket) |
-| **Requires** | Valid test user in `.env`, UPEX Dojo API running |
+| **Requires** | Usuario de prueba válido en `.env`, UPEX Dojo API corriendo |
 
 ## Summary
 
-Validate that the authentication API and UI correctly manage user sessions: login with valid credentials creates a valid session, login with invalid credentials is rejected, and authenticated endpoints enforce token requirements.
+Validar que la API y UI de autenticación gestionan sesiones correctamente: login con credenciales válidas crea una sesión válida, login con credenciales inválidas se rechaza, y endpoints autenticados aplican requerimientos de token.
 
 ## Preconditions
 
-- UPEX Dojo API running at configured `apiUrl`
-- Test user credentials configured in `.env`
-- For UI tests: browser navigated to `/login` via `goto()`
+- UPEX Dojo API corriendo en `apiUrl` configurada.
+- Credenciales de test user configuradas en `.env`.
+- Para UI tests: browser navegado a `/login` vía `goto()`.
 
 ## Test Cases
 
-### AUTH-001: Validate successful authentication when valid credentials are provided (API)
+### AUTH-001: Validar autenticación exitosa con credenciales válidas (API)
 
-**Preconditions**: Valid test user exists in the system
-**Action**: POST /auth/login with valid email and password
+**Preconditions**: Existe un test user válido en el sistema.
+**Action**: POST /auth/login con email y password válidos.
 **Expected Output**:
-- Response status is 200
-- Token has `access_token`, `token_type` "Bearer", `expires_in` > 0
-- GET /auth/me returns 200 with matching email (session is valid)
+- Response status 200.
+- Token tiene `access_token`, `token_type` "Bearer", `expires_in` > 0.
+- GET /auth/me devuelve 200 con email coincidente (sesión válida).
 
 ```gherkin
 Scenario: AUTH-001 - Validate successful authentication when valid credentials are provided
@@ -38,14 +38,14 @@ Scenario: AUTH-001 - Validate successful authentication when valid credentials a
   And GET /auth/me confirms the session is valid with matching user email
 ```
 
-### AUTH-002: Validate authentication rejection when invalid credentials are provided (API)
+### AUTH-002: Validar rechazo de autenticación con credenciales inválidas (API)
 
-**Preconditions**: No active session
-**Action**: POST /auth/login with invalid email or wrong password
+**Preconditions**: No hay sesión activa.
+**Action**: POST /auth/login con email inválido o password incorrecto.
 **Expected Output**:
-- Response status is 401
-- Response contains error message
-- GET /auth/me returns 401 (no session was created)
+- Response status 401.
+- Response contiene mensaje de error.
+- GET /auth/me devuelve 401 (no se creó sesión).
 
 ```gherkin
 Scenario: AUTH-002 - Validate authentication rejection when invalid credentials are provided
@@ -56,12 +56,12 @@ Scenario: AUTH-002 - Validate authentication rejection when invalid credentials 
   And GET /auth/me confirms no session was created
 ```
 
-### AUTH-003: Validate successful login when valid credentials are submitted via UI
+### AUTH-003: Validar login exitoso vía UI con credenciales válidas
 
-**Preconditions**: Browser navigated to `/login`, valid test user exists
-**Action**: Fill login form with valid credentials and submit
+**Preconditions**: Browser navegado a `/login`; existe test user válido.
+**Action**: Completar formulario login con credenciales válidas y submit.
 **Expected Output**:
-- Page redirects away from `/login`
+- Page redirige fuera de `/login`.
 
 ```gherkin
 Scenario: AUTH-003 - Validate successful login when valid credentials are submitted via UI
@@ -70,13 +70,13 @@ Scenario: AUTH-003 - Validate successful login when valid credentials are submit
   Then the page redirects away from /login
 ```
 
-### AUTH-004: Validate protected endpoint enforcement when no token is provided (API)
+### AUTH-004: Validar enforcement de endpoint protegido sin token (API)
 
-**Preconditions**: Auth token cleared
-**Action**: GET /auth/me without a token
+**Preconditions**: Auth token limpiado.
+**Action**: GET /auth/me sin token.
 **Expected Output**:
-- Response status is 401
-- Response is not ok
+- Response status 401.
+- Response no es ok.
 
 ```gherkin
 Scenario: AUTH-004 - Validate protected endpoint enforcement when no token is provided
@@ -88,8 +88,8 @@ Scenario: AUTH-004 - Validate protected endpoint enforcement when no token is pr
 
 ## Acceptance Criteria
 
-- [ ] All 4 TCs automated and passing
-- [ ] API ATCs follow ACTION + VERIFICATION pattern
-- [ ] UI ATC uses `data-testid` locators
-- [ ] No hardcoded credentials in test code (use config)
-- [ ] Test isolation: each test gets fresh fixture state
+- [ ] Los 4 TCs automatizados y pasando.
+- [ ] API ATCs siguen patrón ACTION + VERIFICATION.
+- [ ] UI ATC usa locators `data-testid`.
+- [ ] Sin credenciales hardcodeadas en test code (usar config).
+- [ ] Test isolation: cada test recibe fixture state fresco.

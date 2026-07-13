@@ -7,18 +7,18 @@
 
 ---
 
-## 1. Test Case Summary
+## 1. Resumen del Test Case
 
 | Field | Value |
-|-------|-------|
+|---|---|
 | **Name** | Login with valid credentials via UI |
-| **Objective** | Validates that filling the login form and submitting redirects the user away from the login page |
-| **Precondition** | Valid test user exists; browser navigated to `/login` via `goto()` |
-| **Acceptance Criteria** | Form submission with valid credentials redirects away from `/login` |
+| **Objective** | Valida que completar el formulario login y enviarlo redirige al usuario fuera de login page |
+| **Precondition** | Existe test user válido; browser navegado a `/login` vía `goto()` |
+| **Acceptance Criteria** | Submit del formulario con credenciales válidas redirige fuera de `/login` |
 
 ---
 
-## 2. ATC Contract
+## 2. Contrato ATC
 
 ```typescript
 /**
@@ -37,22 +37,22 @@ async loginSuccessfully(credentials: LoginCredentials): Promise<void>
 ### Method Signature
 
 | Aspect | Value |
-|--------|-------|
+|---|---|
 | **Name** | `loginSuccessfully` |
 | **Parameters** | `credentials: LoginCredentials` (email + password) |
-| **Return Type** | `Promise<void>` (UI ATCs always return void) |
+| **Return Type** | `Promise<void>` (UI ATCs siempre retornan void) |
 
 ---
 
-## 3B. UI Details
+## 3B. Detalles UI
 
 ### Page Navigation
 
 | Aspect | Value |
-|--------|-------|
+|---|---|
 | **Page Path** | `/login` |
-| **Requires Auth** | No (login page is public) |
-| **Navigation Method** | `await this.goto()` (call before ATC) |
+| **Requires Auth** | No (login page es pública) |
+| **Navigation Method** | `await this.goto()` (llamar antes del ATC) |
 
 ### Return Type
 
@@ -60,7 +60,7 @@ async loginSuccessfully(credentials: LoginCredentials): Promise<void>
 Promise<void>
 ```
 
-### Locator Strategy
+### Estrategia de Locators
 
 ```typescript
 // Inline locators — used via private helper fillAndSubmitLoginForm()
@@ -70,7 +70,7 @@ this.page.locator('[data-testid="login-submit-button"]')
 ```
 
 | Locator | Strategy | Selector | Used In |
-|---------|----------|----------|---------|
+|---|---|---|---|
 | Email input | `data-testid` | `login-email-input` | Shared (helper) |
 | Password input | `data-testid` | `login-password-input` | Shared (helper) |
 | Submit button | `data-testid` | `login-submit-button` | Shared (helper) |
@@ -85,22 +85,22 @@ await expect(this.page).not.toHaveURL(/.*\/login.*/);
 
 ---
 
-## 4. Assertions Split
+## 4. División de Assertions
 
-### Fixed Assertions (Inside ATC)
+### Fixed Assertions (dentro del ATC)
 
 | # | Assertion | Code |
-|---|-----------|------|
-| 1 | Wait for URL redirect | `await this.page.waitForURL(url => !url.pathname.includes('/login'))` |
-| 2 | Confirm not on login page | `await expect(this.page).not.toHaveURL(/.*\/login.*/)` |
+|---|---|---|
+| 1 | Esperar redirect de URL | `await this.page.waitForURL(url => !url.pathname.includes('/login'))` |
+| 2 | Confirmar que no sigue en login page | `await expect(this.page).not.toHaveURL(/.*\/login.*/)` |
 
-### Test-Level Assertions (In Test File)
+### Test-Level Assertions (en Test File)
 
-| # | Assertion | Why It's Test-Level |
-|---|-----------|---------------------|
-| 1 | Destination URL matches expected page | Depends on app routing (dashboard, home, etc.) |
-| 2 | Dashboard content is visible | Specific to post-login UI state |
-| 3 | User name displayed in header | Depends on test user data |
+| # | Assertion | Por qué es test-level |
+|---|---|---|
+| 1 | Destination URL coincide con página esperada | Depende del routing de app (dashboard, home, etc.) |
+| 2 | Dashboard content visible | Específico del estado UI post-login |
+| 3 | User name visible en header | Depende de datos del test user |
 
 ---
 
@@ -143,7 +143,7 @@ async loginSuccessfully(credentials: LoginCredentials): Promise<void> {
 }
 ```
 
-**Usage in test file:**
+**Uso en test file:**
 
 ```typescript
 // In: tests/e2e/auth/login.test.ts
@@ -166,13 +166,13 @@ test('should login and see dashboard', async ({ ui }) => {
 ## 6. Equivalence Partitioning Check
 
 | Input Variation | Expected Output | Same ATC? |
-|-----------------|-----------------|-----------|
-| Valid email + valid password | Redirect away from /login | Yes — Base case |
-| Different valid user | Redirect away from /login | Yes — same output, parameterize |
-| Invalid email | Error visible, stays on /login | No — `loginWithInvalidCredentials` (UPEX-106) |
-| Valid email + wrong password | Error visible, stays on /login | No — `loginWithInvalidCredentials` (UPEX-106) |
+|---|---|---|
+| Valid email + valid password | Redirect fuera de /login | Yes — Base case |
+| Different valid user | Redirect fuera de /login | Yes — mismo output, parameterize |
+| Invalid email | Error visible, permanece en /login | No — `loginWithInvalidCredentials` (UPEX-106) |
+| Valid email + wrong password | Error visible, permanece en /login | No — `loginWithInvalidCredentials` (UPEX-106) |
 
-**Decision**: One ATC for all valid login combinations (same output: redirect). A separate ATC (`loginWithInvalidCredentials`) for invalid combinations (same output: error + stays on page).
+**Decision**: un ATC para todas las combinaciones de login válido (mismo output: redirect). ATC separado (`loginWithInvalidCredentials`) para combinaciones inválidas (mismo output: error + permanece en page).
 
 ---
 
@@ -181,36 +181,36 @@ test('should login and see dashboard', async ({ ui }) => {
 ### Precondition Steps
 
 | Step | How | Component |
-|------|-----|-----------|
-| Navigate to login page | `await ui.login.goto()` | `LoginPage` |
+|---|---|---|
+| Navegar a login page | `await ui.login.goto()` | `LoginPage` |
 
 ### Required Components
 
 | Component | Exists? | Action Needed |
-|-----------|---------|---------------|
-| `LoginPage` | Yes | Method already exists |
-| `UiFixture` | Yes | Already registered |
+|---|---|---|
+| `LoginPage` | Yes | Method ya existe |
+| `UiFixture` | Yes | Ya registrado |
 
 ---
 
 ## 8. Checklist
 
-- [x] Method name follows `{verb}{Resource}{Scenario}` convention
-- [x] Parameters: 1 positional (under max 2 limit)
-- [x] Return type is `Promise<void>` (UI ATC)
-- [x] Fixed assertions validate success invariants (URL redirect)
-- [x] Test-level assertions documented for test file
-- [x] Not duplicating an existing ATC (equivalence partitioning checked)
-- [x] Locators use `data-testid` (best practice)
-- [x] Component placement determined (existing `LoginPage`)
-- [x] Precondition steps identified (`goto()`)
-- [x] Private helper extracts shared form interaction
+- [x] Method name sigue convención `{verb}{Resource}{Scenario}`.
+- [x] Parameters: 1 posicional (bajo límite max 2).
+- [x] Return type es `Promise<void>` (UI ATC).
+- [x] Fixed assertions validan invariantes de éxito (URL redirect).
+- [x] Test-level assertions documentadas para test file.
+- [x] No duplica ATC existente (equivalence partitioning revisado).
+- [x] Locators usan `data-testid` (best practice).
+- [x] Component placement determinado (`LoginPage` existente).
+- [x] Precondition steps identificados (`goto()`).
+- [x] Private helper extrae interacción compartida del form.
 
 ---
 
 ## Cross-References
 
-- **Companion ATC**: UPEX-106 (`loginWithInvalidCredentials`) — same component, negative path
+- **Companion ATC**: UPEX-106 (`loginWithInvalidCredentials`) — mismo componente, negative path.
 - **Component**: `tests/components/ui/LoginPage.ts`
 - **E2E test**: `tests/e2e/dashboard/dashboard.test.ts`
-- **Guidelines**: `/test-automation` skill -- `references/test-design-principles.md`
+- **Guidelines**: skill `/test-automation` -- `references/test-design-principles.md`

@@ -1,4 +1,4 @@
-# Auth - Test Plan
+# Auth - Plan de Testing
 
 > **Module**: Authentication (`/auth/*`)
 > **Total Tickets**: 1
@@ -7,25 +7,26 @@
 
 ---
 
-## 1. Executive Summary
+## 1. Resumen Ejecutivo
 
-The authentication module is the gateway to the entire application. Every user flow depends on a valid session, making auth the highest-priority module for test coverage.
+El módulo de autenticación es la puerta de entrada a toda la aplicación. Todo flujo de usuario depende de una sesión válida, por eso auth es el módulo de mayor prioridad para cobertura de testing.
 
-**Key Risks:**
-- Invalid credentials silently creating sessions (security breach)
-- Token expiration not enforced (stale sessions)
-- Protected endpoints accessible without auth (authorization bypass)
+**Riesgos clave:**
+
+- Credenciales inválidas creando sesiones silenciosamente (brecha de seguridad).
+- Expiración de token no aplicada (sesiones stale).
+- Endpoints protegidos accesibles sin auth (authorization bypass).
 
 ---
 
-## 2. Module Overview
+## 2. Overview del Módulo
 
 | Aspect | Value |
-|--------|-------|
+|---|---|
 | **Domain** | Authentication & Session Management |
-| **Primary Actors** | All users (login is universal) |
+| **Primary Actors** | Todos los usuarios (login es universal) |
 | **API Endpoints** | `POST /api/auth/login`, `GET /api/auth/me` |
-| **UI Pages** | `/login` (public form) |
+| **UI Pages** | `/login` (form público) |
 
 ---
 
@@ -52,29 +53,29 @@ Login Flow (UI):
 
 ---
 
-## 4. Test Data Strategy
+## 4. Estrategia de Test Data
 
 | Data | Source | Notes |
-|------|--------|-------|
-| Valid credentials | `config.testUser` from `.env` | Pre-existing test user |
-| Invalid credentials | Inline in test | Hardcoded bad values |
-| Auth token | `api-state.json` from setup project | Auto-loaded by ApiFixture |
+|---|---|---|
+| Credenciales válidas | `config.testUser` desde `.env` | Usuario de prueba preexistente |
+| Credenciales inválidas | Inline en test | Valores malos hardcodeados |
+| Auth token | `api-state.json` desde setup project | Auto-cargado por `ApiFixture` |
 
 ---
 
-## 5. Key Selectors Reference
+## 5. Referencia de Selectores Clave
 
 | Element | Selector | Page |
-|---------|----------|------|
+|---|---|---|
 | Email input | `[data-testid="login-email-input"]` | `/login` |
 | Password input | `[data-testid="login-password-input"]` | `/login` |
 | Submit button | `[data-testid="login-submit-button"]` | `/login` |
 
 ---
 
-## See Also
+## Ver También
 
-- Test specs: `test-specs/` directory in this folder
+- Test specs: directorio `test-specs/` en esta carpeta.
 - Component (API): `tests/components/api/AuthApi.ts`
 - Component (UI): `tests/components/ui/LoginPage.ts`
 - Test file (integration): `tests/integration/auth/user-session.test.ts`
