@@ -98,8 +98,8 @@ const TOKENS_JSON_FILE = resolve(AUTH_DIR, 'tokens.json');
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║  PROJECT-SPECIFIC AUTHENTICATION CONFIGURATION                  ║
 // ║  Adapt this section to match YOUR project's auth mechanism.     ║
-// ║  The boilerplate default uses POST /auth/login with             ║
-// ║  { email, password } → { access_token }.                       ║
+// ║  Bunkai uses POST /api/v1/auth/signin with                    ║
+// ║  { email, password } -> { pat: { token } }.                   ║
 // ║  Your project may use OAuth2, API keys, or a different format.  ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
@@ -115,8 +115,8 @@ function buildAuthPayload(email: string, password: string): Record<string, strin
  * Extract token fields from the auth response.
  * Override this if your API returns tokens in a different shape.
  *
- * Expected response format (default):
- *   { access_token: string, token_type: string, expires_in: number, refresh_token?: string }
+ * Expected Bunkai response format:
+ *   { session: { refresh_token }, pat: { token, expires_at } }
  */
 function extractTokenFromResponse(body: Record<string, unknown>): {
   accessToken: string
@@ -125,11 +125,25 @@ function extractTokenFromResponse(body: Record<string, unknown>): {
   refreshToken: string | null
 } {
   return {
-    accessToken: String(body.access_token ?? ''),
-    tokenType: String(body.token_type ?? 'Bearer'),
-    expiresIn: Number(body.expires_in ?? 86400),
-    refreshToken: body.refresh_token ? String(body.refresh_token) : null,
+    accessToken: String((body.pat as { token?: unknown } | undefined)?.token ?? ''),
+    tokenType: 'Bearer',
+    expiresIn: expiresInFromPat(body),
+    refreshToken: (body.session as { refresh_token?: unknown } | undefined)?.refresh_token
+      ? String((body.session as { refresh_token?: unknown }).refresh_token)
+      : null,
   };
+}
+
+function expiresInFromPat(body: Record<string, unknown>): number {
+  const expiresAt = (body.pat as { expires_at?: unknown } | undefined)?.expires_at;
+  if (!expiresAt) {
+    return 86_400;
+  }
+  const timestamp = Date.parse(String(expiresAt));
+  if (Number.isNaN(timestamp)) {
+    return 86_400;
+  }
+  return Math.max(0, Math.floor((timestamp - Date.now()) / 1000));
 }
 
 // ╔══════════════════════════════════════════════════════════════════╗

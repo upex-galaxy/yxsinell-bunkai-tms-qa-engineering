@@ -108,12 +108,12 @@ const envDataMap: Record<
 > = {
   local: {
     base: 'http://localhost:3000',
-    api: 'http://localhost:3000/api',
+    api: 'http://localhost:3000',
     user: userCredentialsMap.local,
   },
   staging: {
-    base: 'https://dojo.upexgalaxy.com',
-    api: 'https://dojo.upexgalaxy.com/api',
+    base: 'https://staging-upexbunkai.vercel.app',
+    api: 'https://staging-upexbunkai.vercel.app',
     user: userCredentialsMap.staging,
   },
 };
@@ -128,11 +128,11 @@ export const config = {
   baseUrl: envData.base,
   apiUrl: envData.api,
 
-  // Authentication config (UPEX Dojo endpoints - relative to apiUrl)
+  // Authentication config (Bunkai endpoints - relative to apiUrl)
   auth: {
-    loginEndpoint: '/auth/login',
-    tokenEndpoint: '/auth/login', // Endpoint to intercept for token (used by page.waitForResponse)
-    meEndpoint: '/auth/me',
+    loginEndpoint: '/api/v1/auth/signin',
+    tokenEndpoint: '/api/v1/auth/signin', // Endpoint to intercept for token (used by page.waitForResponse)
+    meEndpoint: '/api/v1/me',
     tokenLifetimeSeconds: 86400, // 24 hours (1 day)
     // Storage paths for authenticated sessions
     storageStatePath: '.auth/user.json',

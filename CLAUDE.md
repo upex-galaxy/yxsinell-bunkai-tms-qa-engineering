@@ -424,6 +424,62 @@ This repository (the boilerplate itself) ships `git_strategy.strategy: null`; wi
 
 ---
 
+## Project Assessment (Phase 1)
+
+Assessment Date: 2026-07-12
+
+### Testing Maturity: 2/4
+
+- Current state: Moderate. The target repo `../upex-bunkai-tms` contains multiple unit tests under `lib/**`, but no standard `test` script was exposed in `package.json` during discovery.
+- Test files: present (`*.test.ts` detected by Phase 1 survey).
+- Frameworks: Bun test inferred from repo docs/context; Playwright test runner not verified in target dependencies.
+- Coverage: unknown.
+
+### Documentation State: Good/Complete
+
+- README: yes.
+- API docs: yes, OpenAPI/Scalar documented and route-backed.
+- Architecture: yes, target `.context/SRS/architecture-specs.md` exists.
+- Setup guide: yes, target README and `.env.example` exist.
+
+### Code Quality
+
+- [x] ESLint: configured.
+- [x] Prettier: configured.
+- [x] TypeScript: strict.
+- [x] Pre-commit hooks: configured.
+
+### CI/CD Maturity: None / Not verified
+
+No `.github/workflows/*` were found during Phase 1 survey, even though target SRS mentions GitHub Actions.
+
+### Identified Risks
+
+| Risk | Severity | Mitigation |
+|---|---|---|
+| CI/CD not verified | HIGH | Confirm where pipeline lives before relying on regression automation. |
+| Missing standard test script | MEDIUM | Confirm actual command and add `test` script if project policy allows. |
+| Docs/code drift | HIGH | Prefer migrations and live DB over aspirational docs for test design. |
+| Shared Supabase project ref across envs | HIGH | Confirm data isolation before destructive/write-heavy QA. |
+
+### Phase Prioritization
+
+- Phase 1: Extended — target has existing English context that must be translated/normalized into this QA repo.
+- Phase 2: Extended — architecture docs exist but must be validated against code and translated.
+- Phase 3: Extended — auth, Supabase, env isolation, CI/CD gaps are high-impact for QA.
+- Phase 4: Normal — Jira exists, but tracker sync still needs verification later.
+
+### Blockers
+
+- [ ] Confirm CI/CD source of truth.
+- [ ] Confirm DB environment isolation strategy.
+
+## Project Language Override — Bunkai QA
+
+User preference captured on 2026-07-12: for this Bunkai QA adaptation, conversational replies are Spanish, and generated documentation/context artifacts should also be Spanish. Keep code identifiers, env var names, commands, paths, package names, schema keys, and external product names unchanged unless explicitly requested.
+
+---
+
 ## 12. PROACTIVE MEMORY TRIGGERS
 
 Engram MCP configured. Call `mem_save` IMMEDIATELY (no user prompt needed) after ANY of:

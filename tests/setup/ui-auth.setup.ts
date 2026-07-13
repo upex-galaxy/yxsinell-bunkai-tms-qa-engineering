@@ -47,7 +47,7 @@ setup('UI Setup: authenticate via UI', async ({ ui, page }) => {
   };
 
   // Set up response interception BEFORE triggering login
-  // The login UI calls /api/auth/login after successful NextAuth sign-in
+  // The login UI calls /api/v1/auth/signin after successful email-first sign-in
   const tokenPromise = page.waitForResponse(
     resp => resp.url().includes(config.auth.tokenEndpoint)
       && resp.request().method() === 'POST'
@@ -55,7 +55,7 @@ setup('UI Setup: authenticate via UI', async ({ ui, page }) => {
     { timeout: 30000 },
   );
 
-  // Use LoginPage ATC - triggers NextAuth sign-in + token fetch
+  // Use LoginPage ATC - triggers Bunkai sign-in + token fetch
   await ui.login.loginSuccessfully(credentials);
   console.log('[UI Setup] UI login successful');
 
@@ -72,9 +72,9 @@ setup('UI Setup: authenticate via UI', async ({ ui, page }) => {
     requestBody: { email: credentials.email, password: '***' },
   });
 
-  // Verify token was obtained
-  if (!tokenData?.access_token) {
-    throw new Error('Token response missing access_token');
+  // Verify API PAT was obtained
+  if (!tokenData?.pat?.token) {
+    throw new Error('Token response missing pat.token');
   }
 
   console.log('[UI Setup] Token intercepted successfully');
@@ -85,10 +85,10 @@ setup('UI Setup: authenticate via UI', async ({ ui, page }) => {
 
   // Save the token for API calls within E2E tests
   const apiState: ApiState = {
-    token: tokenData.access_token,
-    tokenType: tokenData.token_type,
-    expiresIn: tokenData.expires_in,
-    refreshToken: tokenData.refresh_token ?? null,
+    token: tokenData.pat.token,
+    tokenType: 'Bearer',
+    expiresIn: tokenData.pat.expires_at ? Math.max(0, Math.floor((Date.parse(tokenData.pat.expires_at) - Date.now()) / 1000)) : 86_400,
+    refreshToken: tokenData.session.refresh_token ?? null,
     source: 'ui-login',
     createdAt: new Date().toISOString(),
   };

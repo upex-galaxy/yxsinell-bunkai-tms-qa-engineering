@@ -27,7 +27,7 @@ setup('API Setup: authenticate via API', async ({ api }) => {
   console.log('[API Setup] Starting API authentication...');
   console.log(`[API Setup] Target: ${config.apiUrl}${config.auth.loginEndpoint}`);
 
-  // Use AuthApi ATC (UPEX Dojo uses 'email' field)
+  // Use AuthApi ATC (Bunkai uses 'email' field)
   const credentials = {
     email: config.testUser.email,
     password: config.testUser.password,
@@ -43,15 +43,14 @@ setup('API Setup: authenticate via API', async ({ api }) => {
   });
 
   console.log('[API Setup] Authentication successful');
-  console.log(`[API Setup] Token type: ${tokenData.token_type}`);
-  console.log(`[API Setup] Expires in: ${tokenData.expires_in} seconds`);
+  console.log('[API Setup] Token type: Bearer');
 
   // Save token to file for use by integration tests
   const apiState: ApiState = {
-    token: tokenData.access_token,
-    tokenType: tokenData.token_type,
-    expiresIn: tokenData.expires_in,
-    refreshToken: tokenData.refresh_token ?? null,
+    token: tokenData.pat.token,
+    tokenType: 'Bearer',
+    expiresIn: tokenData.pat.expires_at ? Math.max(0, Math.floor((Date.parse(tokenData.pat.expires_at) - Date.now()) / 1000)) : 86_400,
+    refreshToken: tokenData.session.refresh_token ?? null,
     source: 'api-login',
     createdAt: new Date().toISOString(),
   };

@@ -7,11 +7,9 @@
  * ATCs follow flow-based design: each ATC is an ACTION + VERIFICATION,
  * not a simple GET. Read-only operations are helpers (no @atc).
  *
- * TODO: Replace 'PROJ' in @atc IDs with your Jira project key (e.g., @atc('UPEX-101'))
- *
  * Endpoints:
- * - POST /api/auth/login - Authenticate and get JWT token
- * - GET /api/auth/me - Get current user info (requires auth)
+ * - POST /api/v1/auth/signin - Authenticate and get PAT token
+ * - GET /api/v1/me - Get current user info (requires auth)
  */
 
 import type { APIResponse } from '@playwright/test';
@@ -20,6 +18,7 @@ import type { TestContextOptions } from '@TestContext';
 
 import { ApiBase } from '@api/ApiBase';
 import { expect } from '@playwright/test';
+import { getApiBearerToken, getApiTokenExpiresIn, getApiTokenType } from '@schemas/auth.types';
 import { atc, step } from '@utils/decorators';
 
 // Re-export types for consumers that import from AuthApi
@@ -61,8 +60,8 @@ export class AuthApi extends ApiBase {
    * ATC: Authenticate with valid credentials - expects success (200)
    *
    * Complete flow:
-   * 1. POST credentials to /auth/login (ACTION)
-   * 2. GET /auth/me to confirm session is valid (VERIFICATION)
+   * 1. POST credentials to /api/v1/auth/signin (ACTION)
+   * 2. GET /api/v1/me to confirm token is valid (VERIFICATION)
    * 3. Validate token response and user info
    *
    * The token is automatically set for subsequent API requests.
@@ -70,7 +69,7 @@ export class AuthApi extends ApiBase {
    * @param credentials - Email and password
    * @returns Tuple with response, token data, and sent payload
    */
-  @atc('PROJ-101')
+  @atc('BK-101')
   async authenticateSuccessfully(
     credentials: LoginPayload,
   ): Promise<[APIResponse, TokenResponse, LoginPayload]> {
@@ -82,12 +81,13 @@ export class AuthApi extends ApiBase {
 
     // Fixed assertions - validates successful authentication
     expect(response.status()).toBe(200);
-    expect(body.access_token).toBeDefined();
-    expect(body.token_type).toBe('Bearer');
-    expect(body.expires_in).toBeGreaterThan(0);
+    const token = getApiBearerToken(body);
+    expect(token).toMatch(/^bk_pat_/);
+    expect(getApiTokenType(body)).toBe('Bearer');
+    expect(getApiTokenExpiresIn(body)).toBeGreaterThanOrEqual(0);
 
     // Store token for subsequent requests
-    this.setAuthToken(body.access_token);
+    this.setAuthToken(token);
 
     // VERIFICATION: Confirm the session is valid via GET /auth/me
     const [meResponse, meBody] = await this.getCurrentUser();
@@ -102,14 +102,14 @@ export class AuthApi extends ApiBase {
    * ATC: Login with invalid credentials - expects error (401)
    *
    * Complete flow:
-   * 1. POST invalid credentials to /auth/login (ACTION)
-   * 2. GET /auth/me to confirm NO session was created (VERIFICATION)
+   * 1. POST invalid credentials to /api/v1/auth/signin (ACTION)
+   * 2. GET /api/v1/me to confirm NO token was accepted (VERIFICATION)
    * 3. Validate error response and unauthorized access
    *
    * @param credentials - Invalid email or password
    * @returns Tuple with error response and sent payload
    */
-  @atc('PROJ-102')
+  @atc('BK-102')
   async loginWithInvalidCredentials(
     credentials: LoginPayload,
   ): Promise<[APIResponse, AuthErrorResponse, LoginPayload]> {
@@ -119,12 +119,12 @@ export class AuthApi extends ApiBase {
       credentials,
     );
 
-    // Fixed assertions - validates error response (UPEX Dojo returns 401)
+    // Fixed assertions - validates Bunkai auth error envelope
     expect(response.status()).toBe(401);
     expect(response.ok()).toBe(false);
     expect(body.error).toBeDefined();
 
-    // VERIFICATION: Confirm no session was created via GET /auth/me → 401
+    // VERIFICATION: Confirm no token was accepted via GET /api/v1/me -> 401
     const savedToken = this.authToken;
     this.clearAuthToken();
     const [meResponse] = await this.getCurrentUser();

@@ -26,21 +26,33 @@ export interface TestCredentials {
 }
 
 // ============================================
-// Project-Specific Types (example structure)
+// Bunkai Test Data Types
 // ============================================
 
-export interface TestHotel {
+export interface TestWorkspace {
   name: string
-  organizationId?: number
-  invoiceCap?: number
+  slug: string
 }
 
-export interface TestBooking {
-  confirmationNumber: string
-  hotelId: number
-  stayValue: number
-  checkInDate: string
-  emailHash?: string
+export interface TestProject {
+  name: string
+  slug: string
+  description?: string
+}
+
+export interface TestModule {
+  name: string
+  description?: string
+}
+
+export interface TestUserStory {
+  title: string
+  description?: string
+  jiraKey?: string
+}
+
+export interface TestAcceptanceCriterion {
+  text: string
 }
 
 // ============================================

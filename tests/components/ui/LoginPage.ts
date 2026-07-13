@@ -4,13 +4,12 @@
  * UI component for authentication via the login page.
  * Handles login flows for E2E tests.
  *
- * TODO: Replace 'PROJ' in @atc IDs with your Jira project key (e.g., @atc('UPEX-101'))
- *
- * Page: /login (UPEX Dojo)
+ * Page: /login (Bunkai)
  * Locators (data-testid):
- * - Email: [data-testid="login-email-input"]
- * - Password: [data-testid="login-password-input"]
- * - Submit: [data-testid="login-submit-button"]
+ * - Email: [data-testid="login-email"]
+ * - Continue: [data-testid="login-continue"]
+ * - Password: [data-testid="login-password"]
+ * - Sign in: [data-testid="login-signin"]
  * - Error: [data-testid="login-error"]
  */
 
@@ -26,7 +25,7 @@ import { atc, step } from '@utils/decorators';
 
 /**
  * Login credentials for UI authentication
- * Note: UPEX Dojo uses 'email' field instead of 'username'
+ * Note: Bunkai uses an email-first login flow.
  */
 export interface LoginCredentials {
   email: string
@@ -51,9 +50,10 @@ export class LoginPage extends UiBase {
    * Helper that combines fill + submit actions
    */
   private async fillAndSubmitLoginForm(credentials: LoginCredentials): Promise<void> {
-    await this.page.locator('[data-testid="login-email-input"]').fill(credentials.email);
-    await this.page.locator('[data-testid="login-password-input"]').fill(credentials.password);
-    await this.page.locator('[data-testid="login-submit-button"]').click();
+    await this.page.getByTestId('login-email').fill(credentials.email);
+    await this.page.getByTestId('login-continue').click();
+    await this.page.getByTestId('login-password').fill(credentials.password);
+    await this.page.getByTestId('login-signin').click();
   }
 
   // ============================================
@@ -81,7 +81,7 @@ export class LoginPage extends UiBase {
    *
    * @param credentials - Email and password
    */
-  @atc('PROJ-101')
+  @atc('BK-101')
   async loginSuccessfully(credentials: LoginCredentials): Promise<void> {
     await this.fillAndSubmitLoginForm(credentials);
 
@@ -98,12 +98,12 @@ export class LoginPage extends UiBase {
    *
    * @param credentials - Invalid email or password
    */
-  @atc('PROJ-102')
+  @atc('BK-102')
   async loginWithInvalidCredentials(credentials: LoginCredentials): Promise<void> {
     await this.fillAndSubmitLoginForm(credentials);
 
-    // Fixed assertion - error should be visible (UPEX Dojo uses data-testid="login-error")
-    const errorIndicator = this.page.locator('[data-testid="login-error"]');
+    // Fixed assertion - error should be visible
+    const errorIndicator = this.page.getByTestId('login-error');
     await expect(errorIndicator).toBeVisible({ timeout: 5000 });
     await expect(this.page).toHaveURL(/.*\/login.*/);
   }
