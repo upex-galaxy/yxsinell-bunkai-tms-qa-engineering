@@ -1,39 +1,39 @@
-# reports/ — Sprint Reports
+# reports/ — Reportes de Sprint
 
-Historical home for sprint-level testing frameworks. One file per sprint, generated and maintained by the `/sprint-testing` skill in batch-sprint mode.
+Hogar histórico para frameworks de testing a nivel sprint. Un archivo por sprint, generado y mantenido por la skill `/sprint-testing` en modo batch-sprint.
 
-Sprint reports are cross-ticket aggregates; they sit here so they don't get buried inside the per-ticket content in `.context/PBI/`.
+Los reportes de sprint son agregados cross-ticket; viven acá para no quedar enterrados dentro del contenido por ticket en `.context/PBI/`.
 
-## Naming convention
+## Convención de nombres
 
-`SPRINT-{N}-TESTING.md`, where `{N}` is the sprint number.
+`SPRINT-{N}-TESTING.md`, donde `{N}` es el número de sprint.
 
-Examples: `SPRINT-9-TESTING.md`, `SPRINT-10-TESTING.md`.
+Ejemplos: `SPRINT-9-TESTING.md`, `SPRINT-10-TESTING.md`.
 
-## What each file contains
+## Qué contiene cada archivo
 
-- Wave 1 / Wave 2 ticket roadmap for the sprint.
-- Per-ticket status (PENDING / PASSED / FAILED), ATP link, ATR link, TCs.
-- Carryover tickets from the previous sprint.
-- QA lead assignment and unassigned counts.
+- Roadmap Wave 1 / Wave 2 de tickets del sprint.
+- Estado por ticket (PENDING / PASSED / FAILED), link ATP, link ATR, TCs.
+- Tickets carryover del sprint anterior.
+- Asignación de QA lead y conteo de no asignados.
 
 ## Lifecycle
 
 | Stage | Trigger | Actor |
-|-------|---------|-------|
-| **Created** | `/sprint-testing` §Session Start step 0.5, when batch mode is detected and the file is missing (or stale > 24h) | `/sprint-testing` skill |
-| **Updated** | After Stage 3 completes for each ticket in the sprint | `/sprint-testing` skill |
-| **Retained** | Never deleted — old sprint reports stay for audit and trend analysis | — |
+|---|---|---|
+| **Created** | `/sprint-testing` §Session Start step 0.5, cuando se detecta batch mode y el archivo falta o está stale > 24h | skill `/sprint-testing` |
+| **Updated** | Después de completar Stage 3 para cada ticket del sprint | skill `/sprint-testing` |
+| **Retained** | Nunca se borra — reportes antiguos quedan para auditoría y análisis de tendencias | — |
 
-The framework file is the single source of truth for sprint progress.
+El framework file es la fuente de verdad para progreso de sprint.
 
-## How to consume
+## Cómo consumir
 
-- Open the latest file to see in-flight sprint state.
-- Diff consecutive files to detect recurring carryovers.
-- Feed into retro-prep tools or dashboards.
+- Abrir el archivo más reciente para ver estado del sprint en curso.
+- Comparar archivos consecutivos para detectar carryovers recurrentes.
+- Alimentar herramientas de retro-prep o dashboards.
 
-## Related
+## Relacionado
 
-- Ticket-level artifacts (ATPs, ATRs, evidence) -> `.context/PBI/`.
-- Sprint-wide test strategy -> `.context/master-test-plan.md`.
+- Artefactos por ticket (ATPs, ATRs, evidence) -> `.context/PBI/`.
+- Estrategia de testing sprint-wide -> `.context/master-test-plan.md`.

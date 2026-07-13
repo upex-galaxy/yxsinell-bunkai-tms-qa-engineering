@@ -1,32 +1,32 @@
-# `.context/ADR/` — Architecture Decision Records (test architecture)
+# `.context/ADR/` — Architecture Decision Records (arquitectura de testing)
 
-Append-only log of the **important, hard-to-reverse** test-architecture decisions made on this project. One file per decision. Decisions are never deleted — they are **superseded** by newer ADRs that link back, so the history of _why the test suite is the way it is_ stays intact.
+Registro append-only de las decisiones de arquitectura de testing importantes y difíciles de revertir tomadas en este proyecto. Un archivo por decisión. Las decisiones nunca se borran: se **superseden** con ADRs nuevos que enlazan hacia atrás, para que la historia de _por qué la suite de tests es como es_ permanezca intacta.
 
-The point: a future human or AI session can read these instead of re-litigating a settled decision or silently violating a test invariant it didn't know existed (e.g. swapping the fixture model in one ticket and breaking isolation everywhere else).
+Objetivo: que una futura sesión humana o AI pueda leer estos ADRs en vez de volver a discutir una decisión ya tomada o violar silenciosamente un invariante de testing que no conocía, por ejemplo cambiar el modelo de fixtures en un ticket y romper isolation en toda la suite.
 
-> "Architecture" here means **test architecture**, not product architecture. A wrong test-framework / fixture / isolation decision is among the most expensive things to reverse in all of software — you rewrite the suite. That makes test work an unusually strong fit for ADRs.
+> Acá “Architecture” significa **arquitectura de testing**, no arquitectura de producto. Una mala decisión de test-framework, fixtures o isolation es de las cosas más caras de revertir: reescribís la suite. Por eso el trabajo de testing es especialmente buen candidato para ADRs.
 
 ---
 
-## What an ADR is (and is not)
+## Qué es un ADR y qué no es
 
-An ADR captures a single decision: the context that forced it, the option chosen, the alternatives rejected, and the consequences the team accepted. It is a **source-of-truth document**, not a cache — nothing regenerates it, and it is committed to git like the test code.
+Un ADR captura una sola decisión: el contexto que la forzó, la opción elegida, las alternativas rechazadas y las consecuencias aceptadas por el equipo. Es un **documento fuente de verdad**, no una cache: nada lo regenera, y se versiona en git como el código de tests.
 
-It is the right artifact when a decision passes **both** gates:
+Es el artefacto correcto cuando una decisión pasa **ambas** puertas:
 
-| Gate                  | Question                                                                                                       |
-| --------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **1 — Architectural** | Does it shape the test-suite structure, a cross-cutting test concern, or an invariant every test must uphold?  |
-| **2 — Hard to reverse** | Would changing it later mean rewriting many tests, migrating fixtures/test-data setup, or coordinating across the QA team? |
+| Gate | Pregunta |
+|---|---|
+| **1 — Architectural** | ¿Da forma a la estructura de la suite, a una preocupación transversal de testing o a un invariante que todo test debe respetar? |
+| **2 — Hard to reverse** | ¿Cambiarla después implicaría reescribir muchos tests, migrar fixtures/test data setup o coordinar al equipo QA? |
 
-Examples that earn an ADR: test-runner / framework choice with real lock-in (Playwright vs Cypress vs WebdriverIO), Page-Object vs Screenplay vs raw, fixture / test-data strategy (factories vs seeded DB vs API setup vs static fixtures), test-isolation & parallelization model (per-worker DB, transactional rollback, namespacing), auth-in-tests strategy (storageState reuse vs login-per-test vs token injection), the selector / `data-testid` contract with the app, the exploratory-vs-scripted boundary, reporting / CI sharding strategy, flake-retry & timeout policy.
+Ejemplos que merecen ADR: elección de test-runner/framework con lock-in real (Playwright vs Cypress vs WebdriverIO), Page-Object vs Screenplay vs raw, estrategia de fixtures/test-data (factories vs seeded DB vs API setup vs static fixtures), modelo de test-isolation y parallelization (per-worker DB, transactional rollback, namespacing), estrategia auth-in-tests (storageState reuse vs login-per-test vs token injection), contrato de selectors/`data-testid` con la app, frontera exploratory-vs-scripted, reporting/CI sharding, política de flake-retry y timeouts.
 
-**NOT an ADR** (these have other homes):
+**NO es ADR**:
 
-- A flaky-test fix or its root cause → engram `mem_save` + the regression report.
-- Renaming a test file, a one-off `waitFor`, picking an assertion helper for a single spec → just the commit.
-- Single-use test scaffolding → no record needed.
-- **Ticket-local test decisions** (which fixture for one ATC, one selector tweak, a one-spec trade-off) → they stay in that ticket's `acceptance-test-planning.md` / automation plan under `## Technical Decisions`. Promote one to an ADR **only** when it passes both gates above.
+- Fix de flaky test o root cause → Engram `mem_save` + regression report.
+- Renombrar un test file, un `waitFor` puntual, elegir assertion helper para un spec → solo commit.
+- Scaffolding de test single-use → no requiere registro.
+- **Decisiones locales de ticket** (qué fixture para un ATC, un selector tweak, un trade-off de un spec) → quedan en `acceptance-test-planning.md` / automation plan del ticket bajo `## Technical Decisions`. Promover a ADR **solo** si pasa ambas puertas.
 
 ---
 
@@ -37,41 +37,41 @@ Proposed ──→ Accepted ──→ Superseded   (by ADR-NNNN, which links bac
                    └────→ Deprecated   (no longer applies; nothing replaces it)
 ```
 
-- **Proposed** — drafted, under discussion, not yet binding.
-- **Accepted** — binding. Downstream test work must honor it.
-- **Superseded** — a newer ADR replaces it. Set `Superseded by: ADR-NNNN`; the new ADR sets `Supersedes: ADR-MMMM`. **Do not edit the old decision body** — leave it as the historical record. (Test-architecture decisions evolve as the suite matures, so superseding is the normal, expected path.)
-- **Deprecated** — the decision no longer applies and nothing replaces it (e.g. that test surface was removed).
+- **Proposed** — redactado, en discusión, todavía no vinculante.
+- **Accepted** — vinculante. El trabajo downstream de tests debe respetarlo.
+- **Superseded** — un ADR nuevo lo reemplaza. Setear `Superseded by: ADR-NNNN`; el ADR nuevo setea `Supersedes: ADR-MMMM`. **No editar el cuerpo viejo**: queda como registro histórico.
+- **Deprecated** — la decisión ya no aplica y no hay reemplazo.
 
-**Append-only.** Never delete an ADR file. Never rewrite a decision after it is Accepted — supersede it with a new one. The only in-place edit allowed on an Accepted ADR is flipping its `Status` line and adding the `Superseded by` / `Deprecated` pointer.
+**Append-only.** Nunca borrar un ADR. Nunca reescribir una decisión después de Accepted: superseder con un ADR nuevo. La única edición in-place permitida en un ADR Accepted es cambiar su `Status` y agregar `Superseded by` / `Deprecated`.
 
 ---
 
-## How to write one
+## Cómo escribir uno
 
-1. Copy [`ADR-NNNN-template.md`](./ADR-NNNN-template.md) to `ADR-<NNNN>-<slug>.md`.
-   - `<NNNN>` = next free 4-digit number, zero-padded (`0001`, `0002`, …). **Allocate it manually — there is no script:** open this README, read the **Index** table below, take `max(existing NNNN) + 1`, and zero-pad to 4 digits. The Index table is the only allocator. Numbers are never reused, even when an ADR is superseded or deprecated.
-   - `<slug>` = short kebab-case summary (`playwright-over-cypress`, `transactional-test-isolation`).
-2. Fill every section. If a decision is still open, set `Status: Proposed` and say what's unresolved.
-3. Add a row to the **Index** below.
-4. If it supersedes an existing ADR, wire both directions (`Supersedes` / `Superseded by`) and flip the old one's `Status`.
+1. Copiar [`ADR-NNNN-template.md`](./ADR-NNNN-template.md) a `ADR-<NNNN>-<slug>.md`.
+   - `<NNNN>` = siguiente número libre de 4 dígitos, zero-padded (`0001`, `0002`, ...). **Asignarlo manualmente; no hay script:** abrir este README, leer el **Index**, tomar `max(existing NNNN) + 1`, y zero-pad a 4 dígitos. El Index es el único allocator. Los números nunca se reutilizan.
+   - `<slug>` = resumen corto kebab-case (`playwright-over-cypress`, `transactional-test-isolation`).
+2. Completar todas las secciones. Si la decisión sigue abierta, setear `Status: Proposed` y explicar qué falta resolver.
+3. Agregar una fila al **Index**.
+4. Si supersede un ADR existente, enlazar ambos lados (`Supersedes` / `Superseded by`) y cambiar el `Status` del viejo.
 
-Who authors: a human QA architect / lead directly, **or** an AI workflow that detected an ADR-worthy decision and drafted it for human approval — `/project-discovery` (SRS / infrastructure test-architecture, seeds the first batch), `/framework-development` (when evolving the boilerplate's own KATA layers, fixtures, or runner), and `/sprint-testing` + `/test-automation` (Stage 1 / Phase 1 planning, when a ticket forces a hard-to-reverse test-architecture decision). Either way, the human approves before `Status: Accepted`. The detection + authoring procedure for AI workflows lives in `.claude/skills/agentic-qa-core/references/adr-doctrine.md`.
+Autoría: un QA architect/lead humano directamente, **o** un workflow AI que detectó una decisión ADR-worthy y la redactó para aprobación humana: `/project-discovery` (SRS / infrastructure test-architecture), `/framework-development` (KATA layers, fixtures, runner), y `/sprint-testing` + `/test-automation` (Stage 1 / Phase 1 planning). En todos los casos, humano aprueba antes de `Status: Accepted`.
 
 ---
 
 ## Index
 
 | ADR | Title | Status | Supersedes | Superseded by |
-| --- | ----- | ------ | ---------- | ------------- |
-| _— none yet —_ | The first ADR is usually seeded during `/project-discovery` (SRS / infrastructure), `/framework-development` (framework evolution), or the first `/sprint-testing` · `/test-automation` ticket that forces a hard-to-reverse test-architecture decision. | | | |
+|---|---|---|---|---|
+| _— none yet —_ | El primer ADR suele sembrarse durante `/project-discovery` (SRS / infrastructure), `/framework-development`, o el primer `/sprint-testing` · `/test-automation` que fuerce una decisión de test-architecture difícil de revertir. | | | |
 
-> Keep this table in sync whenever an ADR is added or its status changes. It is the fast index every session reads first.
+> Mantener esta tabla sincronizada cada vez que se agregue un ADR o cambie su estado. Es el índice rápido que lee cada sesión.
 
 ---
 
-## References
+## Referencias
 
 - Template: [`ADR-NNNN-template.md`](./ADR-NNNN-template.md)
-- AI detection + authoring doctrine: `.claude/skills/agentic-qa-core/references/adr-doctrine.md`
-- Where this folder sits in the bigger map: `.context/README.md` and root `CONTEXT.md`
-- These records cover **test-architecture** decisions — both the boilerplate's own test framework (KATA layers, fixtures, runner — owned by `/framework-development`) and how it is wired to a specific project under test (discovered by `/project-discovery`).
+- Doctrina AI de detección y autoría: `.claude/skills/agentic-qa-core/references/adr-doctrine.md`
+- Ubicación en el mapa general: `.context/README.md` y root `CONTEXT.md`
+- Estos registros cubren decisiones de **arquitectura de testing**: tanto el framework propio del boilerplate (KATA layers, fixtures, runner — owned by `/framework-development`) como su cableado a un proyecto bajo prueba específico (descubierto por `/project-discovery`).

@@ -1,50 +1,50 @@
-# ADR-NNNN — <Short decision title>
+# ADR-NNNN — <Título corto de decisión>
 
 - **Status:** Proposed <!-- Proposed | Accepted | Superseded by ADR-MMMM | Deprecated -->
-- **Date:** YYYY-MM-DD <!-- date the decision was made / last status change -->
-- **Deciders:** <names or roles — who owns this decision (QA architect / lead / framework owner)>
+- **Date:** YYYY-MM-DD <!-- fecha de decisión / último cambio de estado -->
+- **Deciders:** <nombres o roles — quién es dueño de esta decisión (QA architect / lead / framework owner)>
 - **Tags:** <comma-separated, e.g. test-runner, fixtures, isolation, auth-in-tests, ci>
-- **Supersedes:** — <!-- ADR-MMMM if this replaces an older decision, else — -->
-- **Superseded by:** — <!-- ADR-MMMM if a newer decision replaced this, else — -->
+- **Supersedes:** — <!-- ADR-MMMM si reemplaza una decisión anterior, si no — -->
+- **Superseded by:** — <!-- ADR-MMMM si una decisión nueva reemplaza esta, si no — -->
 
 ---
 
 ## Context
 
-What forces a test-architecture decision here? Describe the problem, the constraints (tooling, CI, flake, team, time), and the assumptions in play. State what is true _now_ — enough that a reader six months from now understands the pressure without having been in the room. Cite evidence where it exists (flaky-run data, CI timing, a vendor limit, an SRS requirement, an incident).
+¿Qué fuerza una decisión de arquitectura de testing acá? Describir el problema, constraints (tooling, CI, flake, equipo, tiempo) y assumptions. Decir qué es verdad _ahora_, con suficiente detalle para que alguien dentro de seis meses entienda la presión sin haber estado en la reunión. Citar evidencia donde exista (flaky-run data, CI timing, vendor limit, SRS requirement, incident).
 
-Common contexts: test-runner / framework choice, test-isolation & parallelization model, fixture / test-data strategy, auth-in-tests approach, selector / `data-testid` contract, exploratory-vs-scripted boundary, reporting / CI sharding, flake-retry & timeout policy.
+Contextos comunes: elección test-runner/framework, test-isolation & parallelization model, fixture/test-data strategy, auth-in-tests approach, selector/`data-testid` contract, exploratory-vs-scripted boundary, reporting/CI sharding, flake-retry & timeout policy.
 
 ## Decision
 
-The option we chose, stated as a clear, active sentence: "We will …". Be specific enough that someone can tell whether a future test change violates it. If the decision introduces an invariant every test must uphold (e.g. "every E2E test resets state via transactional rollback"), state the invariant explicitly.
+La opción elegida, escrita como oración activa y clara: “We will …”. Debe ser lo bastante específica para que alguien pueda saber si un cambio futuro la viola. Si la decisión introduce un invariante que todo test debe respetar, declararlo explícitamente.
 
 ## Consequences
 
-What becomes true once this is in effect — the good, the bad, and the neutral. This is the section future readers care about most.
+Qué pasa a ser cierto cuando esto entra en vigor: lo bueno, lo malo y lo neutral. Esta es la sección que más le importa al lector futuro.
 
-- **Positive:** what gets easier, faster, or less flaky.
-- **Negative / trade-offs:** what gets harder or what we give up (runtime cost, setup complexity, lock-in). An ADR with no negative is usually under-examined.
-- **Neutral / follow-ups:** new constraints, things to revisit, work this unblocks or blocks.
+- **Positive:** qué se vuelve más fácil, rápido o menos flaky.
+- **Negative / trade-offs:** qué se vuelve más difícil o qué se resigna (runtime cost, setup complexity, lock-in). Un ADR sin negativos suele estar poco examinado.
+- **Neutral / follow-ups:** nuevas constraints, cosas a revisar, trabajo que desbloquea o bloquea.
 
 ## Alternatives considered
 
-The serious options we did **not** pick, and why. One short block each — enough that nobody re-proposes a rejected option without new information.
+Opciones serias que **no** elegimos y por qué. Un bloque corto por alternativa: suficiente para que nadie repro-ponga una opción rechazada sin información nueva.
 
-- **<Alternative A>** — why rejected.
-- **<Alternative B>** — why rejected.
+- **<Alternative A>** — por qué se rechazó.
+- **<Alternative B>** — por qué se rechazó.
 
 ## References
 
-- Links to SRS / infrastructure docs, tickets, flaky-run reports, CI dashboards, prior ADRs, external write-ups that informed this decision.
+- Links a SRS / infrastructure docs, tickets, flaky-run reports, CI dashboards, ADRs previos o referencias externas que informaron la decisión.
 
 <!--
-Authoring notes (delete this comment in the real ADR):
-- Filename: ADR-<NNNN>-<kebab-slug>.md  (4-digit number, never reused).
-- Add a row to .context/ADR/README.md → Index after creating this file.
-- Append-only: once Accepted, do not rewrite the Decision/Consequences. To change course,
-  write a NEW ADR that Supersedes this one and flip this file's Status + Superseded-by line.
-- Only ADR-worthy decisions belong here: architectural AND hard to reverse. Ticket-local
-  test trade-offs stay in the ticket's acceptance-test-planning.md / automation plan.
-  See .context/ADR/README.md.
+Notas de autoría (borrar este comentario en el ADR real):
+- Filename: ADR-<NNNN>-<kebab-slug>.md  (4 dígitos, nunca reutilizar).
+- Agregar una fila a .context/ADR/README.md → Index después de crear este archivo.
+- Append-only: una vez Accepted, no reescribir Decision/Consequences. Para cambiar rumbo,
+  escribir un ADR NUEVO que Supersedes este y cambiar Status + Superseded-by acá.
+- Solo decisiones ADR-worthy van acá: architectural Y hard to reverse. Trade-offs locales
+  de ticket quedan en acceptance-test-planning.md / automation plan.
+  Ver .context/ADR/README.md.
 -->
