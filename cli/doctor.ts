@@ -51,11 +51,7 @@ const ENV_PATH = join(REPO_ROOT, '.env');
 const MCP_PATH = join(REPO_ROOT, '.mcp.json');
 const OPENCODE_PATH = join(REPO_ROOT, 'opencode.jsonc');
 const NODE_MODULES_DOTENV = join(REPO_ROOT, 'node_modules', 'dotenv-cli');
-const PW_CACHE_PATHS = [
-  join(homedir(), '.cache', 'ms-playwright'),
-  join(homedir(), 'Library', 'Caches', 'ms-playwright'),
-  join(homedir(), 'AppData', 'Local', 'ms-playwright'),
-];
+const PW_CACHE = join(homedir(), '.cache', 'ms-playwright');
 // --preflight mode resolves install.ts's only third-party import.
 const INQUIRER_MARKER = join(REPO_ROOT, 'node_modules', '@inquirer', 'prompts', 'package.json');
 
@@ -342,7 +338,7 @@ async function runDoctor(): Promise<DoctorReport> {
     mcp_json_exists: existsSync(MCP_PATH),
     opencode_jsonc_exists: existsSync(OPENCODE_PATH),
     deps_installed: existsSync(NODE_MODULES_DOTENV),
-    playwright_browsers: PW_CACHE_PATHS.some(path => existsSync(path)),
+    playwright_browsers: existsSync(PW_CACHE),
     direnv: { installed: false },
     pending_actions: [],
   };

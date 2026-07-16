@@ -224,8 +224,8 @@ import type { LoginPayload, Order } from '@schemas';
 
 ### Creating a new facade
 
-1. Create `api/schemas/{domain}.types.ts` using the facade template above.
-2. Replace sample schema names with real ones from `api/openapi-types.ts`.
+1. Copy `api/schemas/example.types.ts` to `api/schemas/{domain}.types.ts`.
+2. Replace placeholder schema names with real ones from `api/openapi-types.ts`.
 3. Add `export type * from './{domain}.types'` to `api/schemas/index.ts`.
 4. Import from `@schemas/{domain}.types` in the component.
 
