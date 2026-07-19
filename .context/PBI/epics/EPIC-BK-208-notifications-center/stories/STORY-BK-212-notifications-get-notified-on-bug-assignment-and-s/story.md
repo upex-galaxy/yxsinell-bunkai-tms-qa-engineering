@@ -3,9 +3,9 @@
 **Jira Key:** [BK-212](https://jira.upexgalaxy.com/browse/BK-212)
 **Epic:** [BK-208](https://jira.upexgalaxy.com/browse/BK-208) (Notifications Center)
 **Type:** Story
-**Status:** Backlog
+**Status:** Estimation
 **Priority:** Medium
-**Story Points:** -
+**Story Points:** 8
 
 ---
 
@@ -21,6 +21,41 @@ Bugs in Bunkai arrive with their test and run context attached — but Sara stil
 
 ---
 
+## QA Refinements (Shift-Left Analysis) — Added 2026-07-19
+
+Refined Acceptance Criteria live in the Acceptance Criteria field. Full ATP DRAFT lives in the Acceptance Test Plan field.
+
+### Edge Cases Identified
+
+| Edge case | Decision |
+| --- | --- |
+| Reporter and assignee are the same recipient | Create exactly one notification. |
+| Actor is reporter or assignee | Suppress self-notification. |
+| Reassignment from one assignee to another | Notify only the new assignee; no removal notification in this Story. |
+| Recipient loses project/workspace access | Hide notification or block deep link without leaking bug metadata. |
+| Duplicate event delivery/retry | Dedupe by source event id + recipient id. |
+| Bug has no run context attached | Link opens bug detail and shows available context only. |
+
+### Clarified Business Rules
+
+- BK-212 is dependency-gated by BK-31 bug lifecycle and BK-209 inbox substrate.
+- Recipient set is unique per event; reporter and assignee duplication collapses to one notification.
+- Visibility is enforced at inbox read/deep-link time, not only at notification creation.
+- Bug status copy uses BK-31 vocabulary; BK-212 does not define its own statuses.
+
+### Critical Questions Answered
+
+- PO: BK-212 can be estimated now, but implementation starts only after BK-31 exposes bug assignment/status-change events.
+- Dev: consume `bug.assigned` and `bug.status_changed` with actor, reporter, assignee, status, workspace/project, bug, and run/test context payload.
+- Design: row uses bug icon, bug title, assignment/status copy, status transition when available, and BK-31 severity chip style.
+
+### Estimate
+
+- Story Points: 8.
+- Rationale: event-recipient logic + dedupe + RBAC visibility + deep-link integration; assumes BK-31 and BK-209 deliver their foundations.
+
+---
+
 ## Fields
 
 > Each rich-text field is a separate file in this folder.
@@ -31,6 +66,7 @@ Bugs in Bunkai arrive with their test and run context attached — but Sara stil
 - [Out Of Scope](./out-of-scope.md)
 - [Workflow](./workflow.md)
 - [Mockup](./mockup.md)
+- [Acceptance Test Plan (QA)](./acceptance-test-plan.md)
 
 ---
 
@@ -38,7 +74,7 @@ Bugs in Bunkai arrive with their test and run context attached — but Sara stil
 
 ### Story (1)
 
-- [BK-209](https://jira.upexgalaxy.com/browse/BK-209): Notifications | View an inbox of workspace events _(Backlog)_
+- [BK-209](https://jira.upexgalaxy.com/browse/BK-209): Notifications | View an inbox of workspace events _(Ready For Dev)_
 
 ### Epic (1)
 
@@ -49,10 +85,10 @@ Bugs in Bunkai arrive with their test and run context attached — but Sara stil
 ## Metadata
 
 - **Created:** 11/7/2026
-- **Updated:** 11/7/2026
+- **Updated:** 19/7/2026
 - **Reporter:** Ely
-- **Assignee:** Unassigned
-- **Labels:** new-feature, post-mvp
+- **Assignee:** yxsinell acosta zambrano
+- **Labels:** new-feature, post-mvp, shift-left-2026-07-19, shift-left-reviewed
 
 ---
 
