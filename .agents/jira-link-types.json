@@ -13,13 +13,6 @@
     "inward": "is blocked by",
     "exists_in_workspace": true
   },
-  "causes": {
-    "id": "10013",
-    "name": "Problem/Incident",
-    "outward": "causes",
-    "inward": "is caused by",
-    "exists_in_workspace": true
-  },
   "cloners": {
     "id": "10001",
     "name": "Cloners",
@@ -77,25 +70,18 @@
     "exists_in_workspace": true
   },
   "test_design": {
-    "id": "10008",
+    "id": "10009",
     "name": "Test Design",
     "outward": "designs",
     "inward": "is designed by",
     "exists_in_workspace": true
   },
   "test_execute": {
-    "id": "10009",
+    "id": "10008",
     "name": "Test Execute",
     "outward": "executes",
     "inward": "is executed by",
     "exists_in_workspace": true
-  },
-  "tested_by": {
-    "id": "",
-    "name": "",
-    "outward": "tested by",
-    "inward": "tests",
-    "exists_in_workspace": false
   },
   "xray_defect": {
     "id": "10012",
